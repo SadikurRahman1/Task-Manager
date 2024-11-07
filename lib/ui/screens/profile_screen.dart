@@ -11,6 +11,7 @@ import 'package:task_manager/ui/widgets/snack_bar_massage.dart';
 import 'package:task_manager/ui/widgets/tm_appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
+  static const String name = '/profile';
   const ProfileScreen({super.key});
 
   @override

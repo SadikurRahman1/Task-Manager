@@ -6,6 +6,7 @@ import 'package:task_manager/ui/widgets/snack_bar_massage.dart';
 import 'package:task_manager/ui/widgets/tm_appbar.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
+  static const String name = '/addNewTask';
   const AddNewTaskScreen({super.key});
 
   @override
@@ -64,7 +65,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   TextFormField(
                     controller: _descriptionTEController,
                     maxLines: 5,
-                    // autovalidateMode: AutovalidateMode.onUserInteraction,
+
                     decoration: const InputDecoration(hintText: 'Description'),
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {

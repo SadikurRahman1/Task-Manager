@@ -11,6 +11,7 @@ import 'package:task_manager/ui/widgets/snack_bar_massage.dart';
 import 'main_bottom_nav_bar_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
+  static const String name = '/signUp';
   const SignUpScreen({super.key});
 
   @override

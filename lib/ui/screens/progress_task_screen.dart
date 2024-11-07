@@ -9,6 +9,7 @@ import '../widgets/task_card.dart';
 
 
 class ProgressTaskScreen extends StatefulWidget {
+  static const String name = '/progress';
   const ProgressTaskScreen({super.key});
 
   @override

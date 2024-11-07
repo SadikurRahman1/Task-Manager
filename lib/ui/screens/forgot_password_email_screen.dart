@@ -11,6 +11,7 @@ import '../widgets/center_circular_progress_indicator.dart';
 import '../widgets/snack_bar_massage.dart';
 
 class ForgotPasswordEmailScreen extends StatefulWidget {
+  static const String name = '/forgotPasswordEmail';
   const ForgotPasswordEmailScreen({
     super.key,
   });

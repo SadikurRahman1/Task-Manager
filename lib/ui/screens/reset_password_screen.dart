@@ -14,8 +14,13 @@ import '../widgets/snack_bar_massage.dart';
 import 'main_bottom_nav_bar_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen(
-      {super.key, required this.otp, required this.email});
+  static const String name = '/resetPassword';
+
+  const ResetPasswordScreen({
+    super.key,
+    required this.otp,
+    required this.email,
+  });
 
   final String email;
   final String otp;
@@ -178,8 +183,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     setState(() {});
 
     if (response.isSuccess) {
-
-
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(

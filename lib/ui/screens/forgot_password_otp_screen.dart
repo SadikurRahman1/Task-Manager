@@ -12,6 +12,7 @@ import '../../data/utils/urls.dart';
 import '../widgets/snack_bar_massage.dart';
 
 class ForgotPasswordOtpScreen extends StatefulWidget {
+  static const String name = '/forgotPasswordOtp';
   final String email;
 
   const ForgotPasswordOtpScreen({

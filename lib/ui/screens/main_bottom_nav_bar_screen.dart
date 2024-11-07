@@ -6,6 +6,8 @@ import 'completed_task_Screen.dart';
 import 'new_task_screen.dart';
 
 class MainBottomNavBarScreen extends StatefulWidget {
+
+  static const String name = '/home';
   const MainBottomNavBarScreen({super.key});
 
   @override

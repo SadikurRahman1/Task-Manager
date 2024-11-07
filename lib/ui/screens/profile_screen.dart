@@ -1,16 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:task_manager/data/models/network_response.dart';
-import 'package:task_manager/data/models/user_model.dart';
-import 'package:task_manager/data/services/network_caller.dart';
-import 'package:task_manager/data/utils/urls.dart';
 import 'package:task_manager/ui/controllers/auth_controller.dart';
+import 'package:task_manager/ui/controllers/profile_screen_controller.dart';
 import 'package:task_manager/ui/widgets/snack_bar_massage.dart';
 import 'package:task_manager/ui/widgets/tm_appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
+  static const String name = '/profile';
+
   const ProfileScreen({super.key});
 
   @override
@@ -24,8 +22,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
-  bool _UpdateProfileinProgress = false;
+  final ProfileScreenController _profileScreenController = Get.find<
+      ProfileScreenController>();
   XFile? _selectedImage;
+
 
   @override
   void initState() {
@@ -42,7 +42,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
+    TextTheme textTheme = Theme
+        .of(context)
+        .textTheme;
 
     return Scaffold(
       appBar: const TMAppBar(
@@ -119,19 +121,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   decoration: const InputDecoration(
                     hintText: 'Password',
                   ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password can\'t be empty';
+                        // } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                        //   return 'Password must contain at least one uppercase letter';
+                        // } else if (!RegExp(r'[a-z]').hasMatch(value)) {
+                        //   return 'Password must contain at least one lowercase letter';
+                        // } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+                        //   return 'Password must contain at least one number';
+                        // } else if (!RegExp(r'[!@#\$&*~]').hasMatch(value)) {
+                        //   return 'Password must contain at least one special character (!@#\$&*~)';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    }
                 ),
                 const SizedBox(height: 16),
-                Visibility(
-                  visible: !_UpdateProfileinProgress,
-                  replacement: const CircularProgressIndicator(),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_fromKey.currentState!.validate()) {
-                        _updateProfile();
-                      }
-                    },
-                    child: const Icon(Icons.arrow_circle_right_outlined),
-                  ),
+                GetBuilder<ProfileScreenController>(
+                  builder: (controller) {
+                    return Visibility(
+                      visible: !controller.inProgress,
+                      replacement: const CircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_fromKey.currentState!.validate()) {
+                            _updateProfile();
+                          }
+                        },
+                        child: const Icon(Icons.arrow_circle_right_outlined),
+                      ),
+                    );
+                  }
                 ),
                 const SizedBox(height: 16),
               ],
@@ -181,35 +203,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _updateProfile() async {
-    _UpdateProfileinProgress = true;
-    setState(() {});
-    Map<String, dynamic> requestBody = {
-      "email": _emailTEController.text.trim(),
-      "firstName": _firstNameEController.text.trim(),
-      "lastName": _lastNameTEController.text.trim(),
-      "mobile": _mobileTEController.text.trim(),
-    };
-    if (_passwordTEController.text.isNotEmpty) {
-      requestBody["password"] = _passwordTEController.text;
-    }
-    if (_selectedImage != null) {
-      List<int> imageBytes = await _selectedImage!.readAsBytes();
-      String convertedImage = base64Encode(imageBytes);
-      requestBody["photo"] = convertedImage;
-    }
+    final bool request = await _profileScreenController.updateProfile(
+        _emailTEController.text.trim(), _firstNameEController.text.trim(),
+        _lastNameTEController.text.trim(), _mobileTEController.text.trim(),
+        _passwordTEController.text, 'photo');
 
-    final NetworkResponse response = await NetworkCaller.postRequest(
-      url: Urls.updateProfile,
-      body: requestBody,
-    );
-    _UpdateProfileinProgress = false;
-    setState(() {});
-    if (response.isSuccess) {
-      UserModel userModel = UserModel.fromJson(requestBody);
-      AuthController.saveUserData(userModel);
+    // _UpdateProfileinProgress = true;
+    // setState(() {});
+    // Map<String, dynamic> requestBody = {
+    //   "email": _emailTEController.text.trim(),
+    //   "firstName": _firstNameEController.text.trim(),
+    //   "lastName": _lastNameTEController.text.trim(),
+    //   "mobile": _mobileTEController.text.trim(),
+    // };
+    // if (_passwordTEController.text.isNotEmpty) {
+    //   requestBody["password"] = _passwordTEController.text;
+    // }
+    // if (_selectedImage != null) {
+    //   List<int> imageBytes = await _selectedImage!.readAsBytes();
+    //   String convertedImage = base64Encode(imageBytes);
+    //   requestBody["photo"] = convertedImage;
+    // }
+    //
+    // final NetworkResponse response = await NetworkCaller.postRequest(
+    //   url: Urls.updateProfile,
+    //   body: requestBody,
+    // );
+    // _UpdateProfileinProgress = false;
+    // setState(() {});
+    if (request) {
       showSnackBarMassage(context, 'Profile has been Update');
     } else {
-      showSnackBarMassage(context, response.errorMassage, true);
+      showSnackBarMassage(context, _profileScreenController.errorMassage!, true);
     }
   }
 
@@ -223,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _pickerImage() async {
     ImagePicker imagePicker = ImagePicker();
     XFile? pickedImage =
-        await imagePicker.pickImage(source: ImageSource.gallery);
+    await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       _selectedImage = pickedImage;
       setState(() {});

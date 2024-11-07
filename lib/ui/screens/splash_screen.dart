@@ -8,6 +8,7 @@ import 'package:task_manager/ui/widgets/screen_background.dart';
 
 
 class Splashscreen extends StatefulWidget {
+  static const String name = '/';
   const Splashscreen({super.key});
 
   @override

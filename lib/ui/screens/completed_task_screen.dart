@@ -8,6 +8,7 @@ import '../../data/utils/urls.dart';
 import '../widgets/task_card.dart';
 
 class CompletedTaskScreen extends StatefulWidget {
+  static const String name = '/completed';
   const CompletedTaskScreen({super.key});
 
   @override

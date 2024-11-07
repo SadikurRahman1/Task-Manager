@@ -8,6 +8,7 @@ import '../widgets/snack_bar_massage.dart';
 import '../widgets/task_card.dart';
 
 class CancelledTaskScreen extends StatefulWidget {
+  static const String name = '/cancelled';
   const CancelledTaskScreen({super.key});
 
   @override

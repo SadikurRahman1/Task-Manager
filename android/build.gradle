@@ -1,14 +1,27 @@
+//buildscript {
+//    ext.kotlin_version = '8.1.1'
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//
+//    dependencies {
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//    }
+//}
+
 buildscript {
-    ext.kotlin_version = '1.7.10'
     repositories {
         google()
         mavenCentral()
     }
-
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:8.1.1' // Gradle Plugin সঠিক সংস্করণ
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10' // সঠিক Kotlin প্লাগইন সংস্করণ
     }
 }
+
+
 
 allprojects {
     repositories {

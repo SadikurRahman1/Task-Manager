@@ -13,10 +13,15 @@ class NetworkCaller {
     try {
       Uri uri = Uri.parse(url);
       Map<String, String> headers = {
+        'Content-Type': 'application/json',
         'token': AuthController.accessToken.toString(),
       };
       PrintRequest(url, null, headers);
-      final Response response = await get(uri, headers: headers);
+      final Response response = await get(
+        uri,
+        headers: headers,
+      );
+
       PrintResponse(url, response);
       if (response.statusCode == 200) {
         final decodeData = jsonDecode(response.body);
@@ -39,6 +44,51 @@ class NetworkCaller {
       );
     }
   }
+
+  // static Future<NetworkResponse> getRequest({
+  //   required String url,
+  //   bool requiresToken = false,
+  // }) async {
+  //   try {
+  //     Uri uri = Uri.parse(url);
+  //     Map<String, String> headers = {
+  //       'Content-Type': 'application/json',
+  //     };
+  //
+  //     // যদি টোকেন প্রয়োজন হয়, তাহলে টোকেন হেডারে যুক্ত করা হবে
+  //     if (requiresToken) {
+  //       headers['token'] = AuthController.accessToken.toString();
+  //     }
+  //
+  //     PrintRequest(url, null, headers);
+  //     final Response response = await get(
+  //       uri,
+  //       headers: headers,
+  //     );
+  //
+  //     PrintResponse(url, response);
+  //     if (response.statusCode == 200) {
+  //       final decodeData = jsonDecode(response.body);
+  //       return NetworkResponse(
+  //         isSuccess: true,
+  //         statusCode: response.statusCode,
+  //         responseData: decodeData,
+  //       );
+  //     } else {
+  //       return NetworkResponse(
+  //         isSuccess: false,
+  //         statusCode: response.statusCode,
+  //       );
+  //     }
+  //   } catch (e) {
+  //     return NetworkResponse(
+  //       isSuccess: false,
+  //       statusCode: -1,
+  //       errorMassage: e.toString(),
+  //     );
+  //   }
+  // }
+
 
   static Future<NetworkResponse> postRequest(
       {required String url, Map<String, dynamic>? body}) async {
@@ -66,19 +116,18 @@ class NetworkCaller {
             errorMassage: decodeData['data'],
           );
         }
-
         return NetworkResponse(
           isSuccess: true,
           statusCode: response.statusCode,
           responseData: decodeData,
         );
+
       } else if (response.statusCode == 401) {
         _moveToLogin();
         return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-          errorMassage: 'Unauthenticated!'
-        );
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMassage: 'Unauthenticated!');
       } else {
         return NetworkResponse(
           isSuccess: false,
@@ -104,7 +153,7 @@ class NetworkCaller {
         'URL: $url\nRESPONSE CODE: ${response.statusCode}\nBODY: ${response.body}');
   }
 
-  static Future<void> _moveToLogin() async{
+  static Future<void> _moveToLogin() async {
     await AuthController.clearUserData();
     Navigator.pushAndRemoveUntil(TaskManager.NavigatorKey.currentContext!,
         MaterialPageRoute(builder: (context) => SignInScreen()), (p) => false);

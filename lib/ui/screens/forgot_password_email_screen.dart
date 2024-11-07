@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager/data/models/email_verification.dart';
 import 'package:task_manager/ui/screens/forgot_password_otp_screen.dart';
 import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
@@ -69,6 +68,7 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
       child: Column(
         children: [
           TextFormField(
+            controller: _emailTEController,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
               hintText: 'Email',
@@ -124,14 +124,14 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
     }
   }
 
+
   Future<void> _onTabEmailVerificationButton() async {
     _inProgress = true;
     setState(() {});
     final NetworkResponse response = await NetworkCaller.getRequest(
-      url: Urls.recoverVerifyEmail(
-        _emailTEController.text.trim(),
-      ),
+      url: Urls.recoverVerifyEmail(_emailTEController.text.trim(),),
     );
+    print(_emailTEController.text);
     _inProgress = false;
     setState(() {});
     if (response.isSuccess) {
@@ -140,18 +140,19 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
       // _emailVerification = emailVerification.data ?? '';
 
       // showSnackBarMassage(context, response.responseData.toString());
-      showSnackBarMassage(context, _emailVerification!);
+      // showSnackBarMassage(context, _emailVerification!);
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const ForgotPasswordOtpScreen(),
+          builder: (context) => ForgotPasswordOtpScreen(email: _emailTEController.text,),
         ),
       );
     } else {
       showSnackBarMassage(context, response.errorMassage, true);
     }
   }
+
 
   void _onTabSgnInForm() {
     Navigator.pop(context);

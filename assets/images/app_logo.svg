@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500"
+    zoomAndPan="magnify" viewBox="0 0 375 374.999991" height="150"
+    preserveAspectRatio="xMidYMid meet" version="1.0">
+    <defs>
+        <clipPath id="c5f6f280cd">
+            <path d="M 71.132812 69 L 176 69 L 176 263 L 71.132812 263 Z M 71.132812 69 "
+                clip-rule="nonzero" />
+        </clipPath>
+        <clipPath id="edc9a74464">
+            <path d="M 199 112 L 303.632812 112 L 303.632812 306 L 199 306 Z M 199 112 "
+                clip-rule="nonzero" />
+        </clipPath>
+        <clipPath id="3cb4fd1312">
+            <path d="M 78 225 L 176 225 L 176 366.628906 L 78 366.628906 Z M 78 225 "
+                clip-rule="nonzero" />
+        </clipPath>
+        <clipPath id="a4c087542a">
+            <path d="M 199 8.128906 L 297 8.128906 L 297 150 L 199 150 Z M 199 8.128906 "
+                clip-rule="nonzero" />
+        </clipPath>
+    </defs>
+    <g clip-path="url(#c5f6f280cd)">
+        <path fill="#16d841"
+            d="M 71.1875 262.605469 L 175.445312 158.347656 L 175.445312 69.128906 L 71.1875 173.386719 Z M 71.1875 262.605469 "
+            fill-opacity="1" fill-rule="nonzero" />
+    </g>
+    <g clip-path="url(#edc9a74464)">
+        <path fill="#16d841"
+            d="M 259.207031 156.992188 L 199.558594 216.640625 L 199.558594 305.859375 L 303.816406 201.601562 L 303.816406 112.386719 Z M 259.207031 156.992188 "
+            fill-opacity="1" fill-rule="nonzero" />
+    </g>
+    <g clip-path="url(#3cb4fd1312)">
+        <path fill="#069425"
+            d="M 78.285156 269.703125 L 175.445312 366.859375 L 175.445312 277.652344 L 122.890625 225.09375 Z M 78.285156 269.703125 "
+            fill-opacity="1" fill-rule="nonzero" />
+    </g>
+    <g clip-path="url(#a4c087542a)">
+        <path fill="#069425"
+            d="M 199.558594 8.128906 L 199.558594 97.335938 L 252.109375 149.898438 L 296.722656 105.285156 Z M 199.558594 8.128906 "
+            fill-opacity="1" fill-rule="nonzero" />
+    </g>
+</svg>

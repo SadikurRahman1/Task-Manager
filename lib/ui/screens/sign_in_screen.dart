@@ -180,7 +180,7 @@ class _SignInScreenState extends State<SignInScreen> {
           MaterialPageRoute(
             builder: (context) => const MainBottomNavBarScreen(),
           ),
-          (_) => false);
+              (_) => false);
     } else {
       showSnackBarMassage(context, response.errorMassage, true);
     }

@@ -52,7 +52,7 @@ class _SplashscreenState extends State<Splashscreen> {
     return Scaffold(
       body: ScreenBackground(
         child: Center(
-          child: SvgPicture.asset(AssetsPath.logoSvg),
+          child: SvgPicture.asset(AssetsPath.logoSvg, alignment: Alignment.center,),
         ),
       ),
     );

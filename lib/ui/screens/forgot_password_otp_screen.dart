@@ -6,8 +6,18 @@ import 'package:task_manager/ui/screens/sign_in_screen.dart';
 import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
+import '../../data/models/network_response.dart';
+import '../../data/services/network_caller.dart';
+import '../../data/utils/urls.dart';
+import '../widgets/snack_bar_massage.dart';
+
 class ForgotPasswordOtpScreen extends StatefulWidget {
-  const ForgotPasswordOtpScreen({super.key});
+  final String email;
+
+  const ForgotPasswordOtpScreen({
+    super.key,
+    required this.email,
+  });
 
   @override
   State<ForgotPasswordOtpScreen> createState() =>
@@ -15,6 +25,13 @@ class ForgotPasswordOtpScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
+
+  
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _otpTEController = TextEditingController();
+  bool _inProgress = false;
+  String currentText = "";
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -52,32 +69,53 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
   }
 
   Widget _buildVerifyEmailForm() {
-    return Column(
-      children: [
-        PinCodeTextField(
-          length: 6,
-          animationType: AnimationType.fade,
-          keyboardType: TextInputType.number,
-          pinTheme: PinTheme(
-            shape: PinCodeFieldShape.box,
-            borderRadius: BorderRadius.circular(5),
-            fieldHeight: 50,
-            fieldWidth: 40,
-            activeFillColor: Colors.white,
-            inactiveFillColor: Colors.white,
-            selectedFillColor: Colors.white,
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          PinCodeTextField(
+            length: 6,
+            animationType: AnimationType.fade,
+            keyboardType: TextInputType.number,
+            pinTheme: PinTheme(
+              shape: PinCodeFieldShape.box,
+              borderRadius: BorderRadius.circular(5),
+              fieldHeight: 50,
+              fieldWidth: 40,
+              activeFillColor: Colors.white,
+              inactiveFillColor: Colors.white,
+              selectedFillColor: Colors.white,
+            ),
+            animationDuration: const Duration(milliseconds: 300),
+            backgroundColor: Colors.transparent,
+            enableActiveFill: true,
+            appContext: context,
+            controller: _otpTEController,
+            boxShadows: const [
+              BoxShadow(
+                offset: Offset(0, 1),
+                color: Colors.black12,
+                blurRadius: 10,
+              )
+            ],
+            onChanged: (value) {
+              debugPrint(value);
+              setState(() {
+                currentText = value;
+              });
+            },
           ),
-          animationDuration: const Duration(milliseconds: 300),
-          backgroundColor: Colors.transparent,
-          enableActiveFill: true,
-          appContext: context,
-        ),
-        const SizedBox(height: 24),
-        ElevatedButton(
-          onPressed: _onTabNextButton,
-          child: const Icon(Icons.arrow_circle_right_outlined),
-        ),
-      ],
+          const SizedBox(height: 24),
+          Visibility(
+            visible: !_inProgress,
+            replacement: const CircularProgressIndicator(),
+            child: ElevatedButton(
+              onPressed: _onTabNextButton,
+              child: const Icon(Icons.arrow_circle_right_outlined),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -104,12 +142,31 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
   }
 
   void _onTabNextButton() {
-    Navigator.push(
+    if(_formKey.currentState!.validate()){
+      _onTabotpVerificationButton();
+    }
+
+
+  }
+
+  Future<void> _onTabotpVerificationButton() async {
+    _inProgress = true;
+    setState(() {});
+    final NetworkResponse response = await NetworkCaller.getRequest(
+      url: Urls.recoverVerifyOtp(widget.email, currentText),);
+
+    _inProgress = false;
+    setState(() {});
+    if (response.isSuccess) {
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const ResetPasswordScreen(),
+          builder: (context) => ResetPasswordScreen(otp: currentText, email: widget.email,),
         ),
-    );
+      );
+    } else {
+      showSnackBarMassage(context, response.errorMassage, true);
+    }
   }
 
   void _onTabSgnInForm() {

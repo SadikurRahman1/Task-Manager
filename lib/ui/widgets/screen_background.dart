@@ -26,16 +26,16 @@ class ScreenBackground extends StatelessWidget {
       // resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Stack(
-            children: [
-              SvgPicture.asset(
-                AssetsPath.backgroundSvg,
-                fit: BoxFit.cover,
-                height: mediaQuery.height,
-                width: mediaQuery.width,
-              ),
-              SafeArea(child: child),
-            ],
-          ),
+          children: [
+            SvgPicture.asset(
+              AssetsPath.backgroundSvg,
+              fit: BoxFit.cover,
+              height: mediaQuery.height,
+              width: mediaQuery.width,
+            ),
+            SafeArea(child: child),
+          ],
+        ),
       ),
     );
   }

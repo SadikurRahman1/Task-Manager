@@ -8,6 +8,7 @@ class SignUpController extends GetxController {
   String? _errorMassage;
   bool get inProgress => _inProgress;
   String? get errorMassage => _errorMassage;
+  
 
   Future<bool> signUp(
     String email,

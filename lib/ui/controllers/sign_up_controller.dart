@@ -4,7 +4,7 @@ import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
 
 class SignUpController extends GetxController {
-  bool _inProgress = false;
+  bool _inProgress  = false;
   String? _errorMassage;
   bool get inProgress => _inProgress;
   String? get errorMassage => _errorMassage;

@@ -3,7 +3,6 @@ import 'package:task_manager/data/models/login_model.dart';
 import 'package:task_manager/data/models/network_response.dart';
 import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
-
 import 'auth_controller.dart';
 
 class SignInController extends GetxController {

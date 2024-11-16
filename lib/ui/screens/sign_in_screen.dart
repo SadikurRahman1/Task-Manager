@@ -141,6 +141,10 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  void _onTabForgotPassword() {
+    Get.to(ForgotPasswordEmailScreen.name);
+  }
+
   void _onTabNextButton() {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -160,24 +164,8 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  void _onTabForgotPassword() {
-    Get.toNamed(ForgotPasswordEmailScreen.name);
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => const ForgotPasswordEmailScreen(),
-    //   ),
-    // );
-  }
-
   void _onTabSgnUpForm() {
-    Get.toNamed(SignUpScreen.name);
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => const SignUpScreen(),
-    //   ),
-    // );
+    Get.to(SignUpScreen.name);
   }
 
   @override
